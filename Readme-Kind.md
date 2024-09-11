@@ -21,7 +21,26 @@ Une fois votre machine démarrée sur la clé usb. Il faut tester le montage ré
 
 
 # Démarrage de kind
-Votre machine a besoin de mémoire. Vous 
+La documentation de kind se trouve [ici](https://kind.sigs.k8s.io/)  
+
+Vous pouvez suivre le tutorial (suivant)[https://medium.com/@talhakhalid101/creating-a-kubernetes-cluster-for-development-with-kind-189df2cb0792]
+
+Un résumé du tutorial est le suivant : 
+- Installez kind sur votre environnement : (installation)[https://kind.sigs.k8s.io/docs/user/quick-start/]
+- Lancez un cluster avec un fichier de configuration minimal  suivant : 
+```yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30080
+    hostPort: 30070
+```
+
+
+
+
 
 
 
