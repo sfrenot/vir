@@ -38,14 +38,62 @@ nodes:
     hostPort: 30070
 ```
 
+La commande pour créer le cluster : 
+`kind create cluster --config ./configuration.yaml`
 
+Vérifiez que vous avez vos nodes et vos pods. 
 
+`kind get nodes | pods -A`
 
+- Déclarer une configuration de déployement de noeuds nginx. 
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web-nginx
+  name: web-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-nginx
+  template:
+    metadata:
+      labels:
+        app: web-nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+```
 
+kubectl create -f ~/cours/VIR/vir/kindDeployment.yaml 
 
+Testez que votre déployement s'est bien déroulé. 
+`podman top 7e29d612b8e4`
 
+Connectez vous sur un des noeuds 
+`podman exec -it 7e29d612b8e4 bash ou docker exec -it 7e29d612b8e4 -- bash`
 
+- Déclarer une configuration de service permettant de rendre accessible le service à l'extérieur. 
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-nginx
+spec:
+  selector:
+    app: web-nginx
+  type: NodePort
+  ports:
+    - port: 80
+      nodePort: 30080
+```
 
+Essayez de modifier la page web affichée et vérifier qu'il y a un roulement sur les instances déployées. 
 
 
 

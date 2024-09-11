@@ -14,8 +14,16 @@ Fonctionnement des volumes [ici](https://medium.com/geekculture/docker-storage-1
 La documentation du CLI est [ici](https://docs.docker.com/reference/cli/docker/)
 (Que veut dire CLI ?)
 
-
+Déroulez le tutorial [podman](https://docs.podman.io/en/latest/Introduction.html)
 Déroulez le tutorial [suivant](https://github.com/containers/podman/blob/main/docs/tutorials/podman_tutorial.md)
+
+----
+
+Comprenez vous cette commande ? `time podman run fedora cat /etc/redhat-release`
+
+
+Lisez [ceci](https://developers.redhat.com/blog/2014/05/15/practical-introduction-to-docker-containers#background)
+
 
 
 
