@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web-node
+  name: web-node
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-node
+  template:
+    metadata:
+      labels:
+        app: web-node
+    spec:
+      containers:
+      - image: duluca/minimal-node-web-server
+        name: node
+        ports:
+        - containerPort: 80

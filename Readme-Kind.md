@@ -23,7 +23,7 @@ Une fois votre machine démarrée sur la clé usb. Il faut tester le montage ré
 # Démarrage de kind
 La documentation de kind se trouve [ici](https://kind.sigs.k8s.io/)  
 
-Vous pouvez suivre le tutorial (suivant)[https://medium.com/@talhakhalid101/creating-a-kubernetes-cluster-for-development-with-kind-189df2cb0792]
+Vous pouvez suivre le tutorial [suivant](https://medium.com/@talhakhalid101/creating-a-kubernetes-cluster-for-development-with-kind-189df2cb0792)
 
 Un résumé du tutorial est le suivant : 
 - Installez kind sur votre environnement : (installation)[https://kind.sigs.k8s.io/docs/user/quick-start/]
@@ -94,6 +94,139 @@ spec:
 ```
 
 Essayez de modifier la page web affichée et vérifier qu'il y a un roulement sur les instances déployées. 
+
+# Test deploiement kind avec image docker user defined
+[ici](https://medium.com/@martin.hodges/using-kind-to-develop-and-test-your-kubernetes-deployments-54093692c9fa)
+[github](https://github.com/MartinHodges/basic-kind-cluster)
+
+1- Créer un cluster à partir de la description suivante
+```yaml
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30000
+    hostPort: 30000
+    listenAddress: "0.0.0.0" # Optional, defaults to "0.0.0.0"
+    protocol: tcp # Optional, defaults to tcp
+  - containerPort: 31321
+    hostPort: 31321
+  - containerPort: 31300
+    hostPort: 31300
+- role: worker
+- role: worker
+```
+`kind create cluster --name my-k8s --config ./kind-config.yaml`
+
+Vérifier si le cluster est actif : `kubectl get pods -n kind-my-k8s -A`
+Vérifier les nodes : `kubectl get nods`
+
+2- Créer votre propre image docker
+`mkdir -p sample-app/files`
+
+`vi sample-app/files/index.html`
+````html
+<html>
+  <head>
+    <title>Dockerfile</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>My App</h1>
+      <h2>This is my first app</h2>
+      <p>Bonjour tout le monde</p>
+    </div>
+  </body>
+</html>
+````
+
+`vi sample-app/files/default`
+```
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+
+    server_name _;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+`vi sample-app/Dockerfile`
+
+````dockerfile
+FROM ubuntu:24.04
+RUN  apt -y update && apt -y install nginx
+COPY files/default /etc/nginx/sites-available/default
+COPY files/index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+````
+
+
+3- Construire l'image docker et la charger dans le registre du cluster
+```bash
+cd sample-app
+docker build -t sample-app:1.0 .
+kind load docker-image sample-app:1.0 --name my-k8s
+```
+
+`kubectl create namespace sample-app  
+`vi config.yml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  namespace: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - name: sample-app
+        image: sample-app:1.0
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-app-svc
+  namespace: sample-app
+spec:
+  selector:
+    app: sample-app
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: 30000
+```
+
+Déployer et déclarer le service.
+`kubectl apply -f ./KindDeploymentService.yaml`
+
+Vérifiez le déploiement et le service
+`kubectl get services`
+`kubectl get pods`
+
+Tester que cela fonctionne.
+
 
 
 
