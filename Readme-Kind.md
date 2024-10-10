@@ -24,6 +24,8 @@ Une fois votre machine démarrée sur la clé usb. Il faut tester le montage ré
 La documentation de kind se trouve [ici](https://kind.sigs.k8s.io/)  
 
 Vous pouvez suivre le tutorial [suivant](https://medium.com/@talhakhalid101/creating-a-kubernetes-cluster-for-development-with-kind-189df2cb0792)
+Ou celui-ci qui va plus loin [autre](https://medium.com/@martin.hodges/using-kind-to-develop-and-test-your-kubernetes-deployments-54093692c9fa)
+
 
 Un résumé du tutorial est le suivant : 
 - Installez kind sur votre environnement : (installation)[https://kind.sigs.k8s.io/docs/user/quick-start/]
