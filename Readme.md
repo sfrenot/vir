@@ -45,7 +45,9 @@ La commande pour créer le cluster :
 
 Vérifiez que vous avez vos nodes et vos pods. 
 
-`kind get nodes | pods -A`
+`kubctl get nodes`
+`kubectl get pods`
+`kubectl get pods -A`
 
 - Déclarer une configuration de déployement de noeuds nginx. 
 ```yaml
