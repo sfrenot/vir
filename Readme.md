@@ -38,6 +38,8 @@ nodes:
   extraPortMappings:
   - containerPort: 30080
     hostPort: 30070
+- role: worker
+- role: worker
 ```
 
 La commande pour créer le cluster : 
@@ -45,9 +47,9 @@ La commande pour créer le cluster :
 
 Vérifiez que vous avez vos nodes et vos pods. 
 
-`kubctl get nodes`
-`kubectl get pods`
-`kubectl get pods -A`
+`kubctl get nodes`   
+`kubectl get pods`   
+`kubectl get pods -A`   
 
 - Déclarer une configuration de déployement de noeuds nginx. 
 ```yaml
