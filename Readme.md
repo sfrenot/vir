@@ -101,6 +101,23 @@ spec:
 
 Essayez de modifier la page web affichée et vérifier qu'il y a un roulement sur les instances déployées. 
 
+Si vous faites un `curl http://localhost:30070` votre accès fait :   
+30070 -> 30080 -> 80   
+Web -> kind -> conteneur    
+
+```bash
+get pods   
+ps docker   
+docker exec -it <xxxx> bash
+
+crictl ps
+crictl exec -it <xxxx> bash
+
+cd /usr/share/nginx/html
+echo "coucou" > index.html
+```
+
+
 # Test deploiement kind avec image docker user defined
 [ici](https://medium.com/@martin.hodges/using-kind-to-develop-and-test-your-kubernetes-deployments-54093692c9fa)
 [github](https://github.com/MartinHodges/basic-kind-cluster)
