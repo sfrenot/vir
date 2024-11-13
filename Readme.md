@@ -251,5 +251,23 @@ Vérifiez le déploiement et le service
 Tester que cela fonctionne.
 
 
+### Reinstall en cas de besoin de k3s
+````shell
+k3s-killall.sh
+k3s-uninstall.sh
+curl https://get.k3s.io -o install-k3s.sh
+INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_EXEC=--snapshotter=fuse-overlayfs ./install-k3s.sh
+```
 
+### Installation plusieurs noeuds
+Booter sur la clé usb : https://tc-net.insa-lyon.fr/iso/k3s/k3s-tc.iso  
+
+Sur une machine qui sera le serveur / controleur :   
+!! ATTENTION L'ORDRE DES PARAMETRES PEUT JOUER
+
+- Vérifier la date : `date` --> Changer la date si besoin avec la commande `date <memeordrequeaffichage>`  
+- Monter le réseau : `./startnet.sh`
+- Récuperer l'IP : `ip a`
+- Lancer le master kube : `k3s server --snapshotter fuse-overlayfs --token toto`
+- Lancer un agent : `k3s agent --server https://<x.x.x.x>:6443 --token toto --with-node-id <agentX> --snapshotter fuse-overlayfs`
 
