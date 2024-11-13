@@ -252,7 +252,7 @@ Tester que cela fonctionne.
 
 
 ### Reinstall en cas de besoin de k3s
-````shell
+```shell
 k3s-killall.sh
 k3s-uninstall.sh
 curl https://get.k3s.io -o install-k3s.sh
