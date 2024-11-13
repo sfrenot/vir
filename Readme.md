@@ -268,6 +268,6 @@ Sur une machine qui sera le serveur / controleur :
 - Vérifier la date : `date` --> Changer la date si besoin avec la commande `date <memeordrequeaffichage>`  
 - Monter le réseau : `./startnet.sh`
 - Récuperer l'IP : `ip a`
-- Lancer le master kube : `k3s server --snapshotter fuse-overlayfs --token toto`
-- Lancer un agent : `k3s agent --server https://<x.x.x.x>:6443 --token toto --with-node-id <agentX> --snapshotter fuse-overlayfs`
+- Lancer le master kube : `k3s server --snapshotter fuse-overlayfs --token <toto>`
+- Lancer un agent : `k3s agent --server https://<x.x.x.x>:6443 --token <toto> --with-node-id <agentX> --snapshotter fuse-overlayfs`
 
