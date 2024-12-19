@@ -269,5 +269,5 @@ Sur une machine qui sera le serveur / controleur :
 - Monter le réseau : `./startnet.sh`
 - Récuperer l'IP : `ip a`
 - Lancer le master kube : `k3s server --snapshotter fuse-overlayfs --token <toto>`
-- Lancer un agent : `k3s agent --server https://<x.x.x.x>:6443 --token <toto> --with-node-id <agentX> --snapshotter fuse-overlayfs`
+- Lancer un agent : `k3s agent --snapshotter fuse-overlayfs --server https://<x.x.x.x>:6443 --token <toto> --with-node-id <agentX>`
 
